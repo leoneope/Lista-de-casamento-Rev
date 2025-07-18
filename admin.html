@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel dos Noivos - Leo & Dan</title>
+    <style>
+        :root {
+            --terracota-primary: #C65D32;
+            --terracota-secondary: #E07B39;
+            --terracota-light: #F4A261;
+            --terracota-dark: #A0522D;
+            --cream: #F5F5DC;
+            --warm-white: #FFF8F0;
+            --text-dark: #3E2723;
+            --text-light: #6D4C41;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--cream) 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 248, 240, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(198, 93, 50, 0.1);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            border-radius: 15px;
+        }
+
+        .header h1 {
+            color: var(--terracota-primary);
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .nav-back {
+            display: inline-block;
+            margin-bottom: 2rem;
+            padding: 10px 20px;
+            background: var(--terracota-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-back:hover {
+            background: var(--terracota-dark);
+            transform: translateY(-2px);
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .admin-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(198, 93, 50, 0.1);
+            border: 1px solid rgba(198, 93, 50, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .admin-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(198, 93, 50, 0.2);
+        }
+
+        .admin-card h3 {
+            color: var(--terracota-primary);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .admin-card p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--terracota-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: var(--terracota-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--terracota-primary);
+            border: 2px solid var(--terracota-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--terracota-primary);
+            color: white;
+        }
+
+        .stats-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(198, 93, 50, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--cream);
+            border-radius: 15px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--terracota-primary);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .form-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(198, 93, 50, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--cream);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--terracota-primary);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="nav-back">← Voltar ao Site</a>
+        
+        <div class="header">
+            <h1>Painel dos Noivos</h1>
+            <p>Leo & Dan - Gerencie seu casamento</p>
+        </div>
+
+        <!-- Estatísticas -->
+        <div class="stats-section">
+            <h2 style="color: var(--terracota-primary); margin-bottom: 1rem;">Resumo do Casamento</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number" id="total-guests">0</span>
+                    <span class="stat-label">Convidados Total</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="confirmed-guests">0</span>
+                    <span class="stat-label">Confirmados</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="total-gifts">0</span>
+                    <span class="stat-label">Presentes</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="gift-value">R$ 0</span>
+                    <span class="stat-label">Valor Arrecadado</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu de Administração -->
+        <div class="admin-grid">
+            <div class="admin-card">
+                <h3>👥 Gerenciar Convidados</h3>
+                <p>Adicione convidados, visualize confirmações de presença e gerencie a lista de convidados.</p>
+                <button class="btn" onclick="showSection('guests')">Gerenciar Convidados</button>
+            </div>
+
+            <div class="admin-card">
+                <h3>🎁 Lista de Presentes</h3>
+                <p>Crie e edite sua lista de presentes, acompanhe as compras e gerencie os valores.</p>
+                <button class="btn" onclick="showSection('gifts')">Gerenciar Presentes</button>
+            </div>
+
+            <div class="admin-card">
+                <h3>📋 Confirmações RSVP</h3>
+                <p>Visualize todas as confirmações de presença e informações dos convidados.</p>
+                <button class="btn" onclick="showSection('rsvp')">Ver Confirmações</button>
+            </div>
+
+            <div class="admin-card">
+                <h3>⚙️ Configurações</h3>
+                <p>Edite informações do casamento, locais, horários e outros detalhes importantes.</p>
+                <button class="btn" onclick="showSection('settings')">Configurações</button>
+            </div>
+        </div>
+
+        <!-- Seção de Convidados -->
+        <div id="guests-section" class="form-section hidden">
+            <h2 style="color: var(--terracota-primary); margin-bottom: 1rem;">Gerenciar Convidados</h2>
+            
+            <div class="form-group">
+                <h3>Adicionar Novo Convidado</h3>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="guest-name">Nome Completo</label>
+                    <input type="text" id="guest-name" placeholder="Nome do convidado">
+                </div>
+                <div class="form-group">
+                    <label for="guest-email">E-mail</label>
+                    <input type="email" id="guest-email" placeholder="email@exemplo.com">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="guest-phone">Telefone</label>
+                    <input type="tel" id="guest-phone" placeholder="(11) 99999-9999">
+                </div>
+                <div class="form-group">
+                    <label for="guest-category">Categoria</label>
+                    <select id="guest-category">
+                        <option value="familia">Família</option>
+                        <option value="amigos">Amigos</option>
+                        <option value="trabalho">Trabalho</option>
+                        <option value="outros">Outros</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button class="btn" onclick="addGuest()">Adicionar Convidado</button>
+            <button class="btn btn-secondary" onclick="hideSection()">Voltar</button>
+            
+            <div id="guests-list" style="margin-top: 2rem;">
+                <h3>Lista de Convidados</h3>
+                <div id="guests-container"></div>
+            </div>
+        </div>
+
+        <!-- Seção de Presentes -->
+        <div id="gifts-section" class="form-section hidden">
+            <h2 style="color: var(--terracota-primary); margin-bottom: 1rem;">Gerenciar Lista de Presentes</h2>
+            
+            <div class="form-group">
+                <h3>Adicionar Novo Presente</h3>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="gift-name">Nome do Presente</label>
+                    <input type="text" id="gift-name" placeholder="Ex: Jogo de Panelas">
+                </div>
+                <div class="form-group">
+                    <label for="gift-price">Valor (R$)</label>
+                    <input type="number" id="gift-price" placeholder="0.00" step="0.01">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="gift-description">Descrição</label>
+                <textarea id="gift-description" rows="3" placeholder="Descrição do presente..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="gift-category">Categoria</label>
+                <select id="gift-category">
+                    <option value="casa">Casa</option>
+                    <option value="cozinha">Cozinha</option>
+                    <option value="quarto">Quarto</option>
+                    <option value="lua-de-mel">Lua de Mel</option>
+                    <option value="outros">Outros</option>
+                </select>
+            </div>
+            
+            <button class="btn" onclick="addGift()">Adicionar Presente</button>
+            <button class="btn btn-secondary" onclick="hideSection()">Voltar</button>
+            
+            <div id="gifts-list" style="margin-top: 2rem;">
+                <h3>Lista de Presentes</h3>
+                <div id="gifts-container"></div>
+            </div>
+        </div>
+
+        <!-- Seção de RSVP -->
+        <div id="rsvp-section" class="form-section hidden">
+            <h2 style="color: var(--terracota-primary); margin-bottom: 1rem;">Confirmações de Presença</h2>
+            <button class="btn btn-secondary" onclick="hideSection()">Voltar</button>
+            
+            <div id="rsvp-list" style="margin-top: 2rem;">
+                <div id="rsvp-container"></div>
+            </div>
+        </div>
+
+        <!-- Seção de Configurações -->
+        <div id="settings-section" class="form-section hidden">
+            <h2 style="color: var(--terracota-primary); margin-bottom: 1rem;">Configurações do Casamento</h2>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="wedding-date">Data do Casamento</label>
+                    <input type="datetime-local" id="wedding-date" value="2025-12-15T15:00">
+                </div>
+                <div class="form-group">
+                    <label for="ceremony-location">Local da Cerimônia</label>
+                    <input type="text" id="ceremony-location" placeholder="Igreja, cartório, etc.">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="reception-location">Local da Recepção</label>
+                    <input type="text" id="reception-location" placeholder="Salão, restaurante, etc.">
+                </div>
+                <div class="form-group">
+                    <label for="dress-code">Dress Code</label>
+                    <select id="dress-code">
+                        <option value="casual">Casual</option>
+                        <option value="social">Social</option>
+                        <option value="formal">Formal</option>
+                        <option value="black-tie">Black Tie</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="wedding-story">História do Casal</label>
+                <textarea id="wedding-story" rows="5" placeholder="Conte a história de vocês...">Leo e Dan se conheceram em 2020 e desde então construíram uma linda história de amor. Após anos de companheirismo, cumplicidade e muitos momentos especiais, decidiram oficializar sua união e celebrar com família e amigos.</textarea>
+            </div>
+            
+            <button class="btn" onclick="saveSettings()">Salvar Configurações</button>
+            <button class="btn btn-secondary" onclick="hideSection()">Voltar</button>
+        </div>
+    </div>
+
+    <script>
+        // Dados simulados (em uma aplicação real, estes viriam de um banco de dados)
+        let guests = JSON.parse(localStorage.getItem('wedding-guests') || '[]');
+        let gifts = JSON.parse(localStorage.getItem('wedding-gifts') || '[]');
+        let rsvps = JSON.parse(localStorage.getItem('wedding-rsvps') || '[]');
+
+        // Inicializar dados de exemplo se estiver vazio
+        if (gifts.length === 0) {
+            gifts = [
+                {id: 1, name: 'Jogo de Panelas', price: 299.90, description: 'Jogo de panelas antiaderente', category: 'cozinha', purchased: false},
+                {id: 2, name: 'Jogo de Cama Casal', price: 199.90, description: 'Jogo de cama 100% algodão', category: 'quarto', purchased: false},
+                {id: 3, name: 'Lua de Mel - Passagens', price: 2000.00, description: 'Ajuda com as passagens da lua de mel', category: 'lua-de-mel', purchased: false}
+            ];
+            localStorage.setItem('wedding-gifts', JSON.stringify(gifts));
+        }
+
+        function showSection(section) {
+            hideAllSections();
+            document.getElementById(section + '-section').classList.remove('hidden');
+            
+            if (section === 'guests') {
+                loadGuests();
+            } else if (section === 'gifts') {
+                loadGifts();
+            } else if (section === 'rsvp') {
+                loadRSVPs();
+            }
+        }
+
+        function hideSection() {
+            hideAllSections();
+        }
+
+        function hideAllSections() {
+            document.querySelectorAll('.form-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+        }
+
+        function addGuest() {
+            const name = document.getElementById('guest-name').value;
+            const email = document.getElementById('guest-email').value;
+            const phone = document.getElementById('guest-phone').value;
+            const category = document.getElementById('guest-category').value;
+
+            if (!name) {
+                alert('Por favor, preencha o nome do convidado.');
+                return;
+            }
+
+            const guest = {
+                id: Date.now(),
+                name,
+                email,
+                phone,
+                category,
+                rsvp: 'pending'
+            };
+
+            guests.push(guest);
+            localStorage.setItem('wedding-guests', JSON.stringify(guests));
+            
+            // Limpar formulário
+            document.getElementById('guest-name').value = '';
+            document.getElementById('guest-email').value = '';
+            document.getElementById('guest-phone').value = '';
+            
+            loadGuests();
+            updateStats();
+        }
+
+        function addGift() {
+            const name = document.getElementById('gift-name').value;
+            const price = parseFloat(document.getElementById('gift-price').value);
+            const description = document.getElementById('gift-description').value;
+            const category = document.getElementById('gift-category').value;
+
+            if (!name || !price) {
+                alert('Por favor, preencha o nome e valor do presente.');
+                return;
+            }
+
+            const gift = {
+                id: Date.now(),
+                name,
+                price,
+                description,
+                category,
+                purchased: false
+            };
+
+            gifts.push(gift);
+            localStorage.setItem('wedding-gifts', JSON.stringify(gifts));
+            
+            // Limpar formulário
+            document.getElementById('gift-name').value = '';
+            document.getElementById('gift-price').value = '';
+            document.getElementById('gift-description').value = '';
+            
+            loadGifts();
+            updateStats();
+        }
+
+        function loadGuests() {
+            const container = document.getElementById('guests-container');
+            container.innerHTML = '';
+
+            guests.forEach(guest => {
+                const guestDiv = document.createElement('div');
+                guestDiv.style.cssText = 'background: var(--cream); padding: 1rem; margin: 0.5rem 0; border-radius: 10px; display: flex; justify-content: space-between; align-items: center;';
+                
+                guestDiv.innerHTML = `
+                    <div>
+                        <strong>${guest.name}</strong><br>
+                        <small>${guest.email || 'Sem e-mail'} | ${guest.phone || 'Sem telefone'} | ${guest.category}</small><br>
+                        <span style="color: ${guest.rsvp === 'confirmed' ? 'green' : guest.rsvp === 'declined' ? 'red' : 'orange'}">
+                            ${guest.rsvp === 'confirmed' ? 'Confirmado' : guest.rsvp === 'declined' ? 'Recusou' : 'Pendente'}
+                        </span>
+                    </div>
+                    <button class="btn" onclick="removeGuest(${guest.id})" style="background: #dc3545;">Remover</button>
+                `;
+                
+                container.appendChild(guestDiv);
+            });
+        }
+
+        function loadGifts() {
+            const container = document.getElementById('gifts-container');
+            container.innerHTML = '';
+
+            gifts.forEach(gift => {
+                const giftDiv = document.createElement('div');
+                giftDiv.style.cssText = 'background: var(--cream); padding: 1rem; margin: 0.5rem 0; border-radius: 10px; display: flex; justify-content: space-between; align-items: center;';
+                
+                giftDiv.innerHTML = `
+                    <div>
+                        <strong>${gift.name}</strong> - R$ ${gift.price.toFixed(2)}<br>
+                        <small>${gift.description}</small><br>
+                        <span style="color: ${gift.purchased ? 'green' : 'orange'}">
+                            ${gift.purchased ? 'Comprado' : 'Disponível'}
+                        </span>
+                    </div>
+                    <button class="btn" onclick="removeGift(${gift.id})" style="background: #dc3545;">Remover</button>
+                `;
+                
+                container.appendChild(giftDiv);
+            });
+        }
+
+        function loadRSVPs() {
+            const container = document.getElementById('rsvp-container');
+            container.innerHTML = '';
+
+            if (rsvps.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--text-light);">Nenhuma confirmação de presença ainda.</p>';
+                return;
+            }
+
+            rsvps.forEach(rsvp => {
+                const rsvpDiv = document.createElement('div');
+                rsvpDiv.style.cssText = 'background: var(--cream); padding: 1rem; margin: 0.5rem 0; border-radius: 10px;';
+                
+                rsvpDiv.innerHTML = `
+                    <div>
+                        <strong>${rsvp.name}</strong><br>
+                        <small>E-mail: ${rsvp.email || 'Não informado'}</small><br>
+                        <small>Telefone: ${rsvp.phone || 'Não informado'}</small><br>
+                        <small>Status: <span style="color: ${rsvp.status === 'confirmed' ? 'green' : 'red'}">${rsvp.status === 'confirmed' ? 'Confirmado' : 'Recusou'}</span></small><br>
+                        ${rsvp.status === 'confirmed' ? `<small>Adultos: ${rsvp.adults || 1} | Crianças: ${rsvp.children || 0}</small><br>` : ''}
+                        ${rsvp.dietary ? `<small>Restrições: ${rsvp.dietary}</small><br>` : ''}
+                        ${rsvp.message ? `<small>Mensagem: "${rsvp.message}"</small>` : ''}
+                    </div>
+                `;
+                
+                container.appendChild(rsvpDiv);
+            });
+        }
+
+        function removeGuest(id) {
+            if (confirm('Tem certeza que deseja remover este convidado?')) {
+                guests = guests.filter(guest => guest.id !== id);
+                localStorage.setItem('wedding-guests', JSON.stringify(guests));
+                loadGuests();
+                updateStats();
+            }
+        }
+
+        function removeGift(id) {
+            if (confirm('Tem certeza que deseja remover este presente?')) {
+                gifts = gifts.filter(gift => gift.id !== id);
+                localStorage.setItem('wedding-gifts', JSON.stringify(gifts));
+                loadGifts();
+                updateStats();
+            }
+        }
+
+        function saveSettings() {
+            const settings = {
+                date: document.getElementById('wedding-date').value,
+                ceremonyLocation: document.getElementById('ceremony-location').value,
+                receptionLocation: document.getElementById('reception-location').value,
+                dressCode: document.getElementById('dress-code').value,
+                story: document.getElementById('wedding-story').value
+            };
+
+            localStorage.setItem('wedding-settings', JSON.stringify(settings));
+            alert('Configurações salvas com sucesso!');
+        }
+
+        function updateStats() {
+            document.getElementById('total-guests').textContent = guests.length;
+            document.getElementById('confirmed-guests').textContent = guests.filter(g => g.rsvp === 'confirmed').length + rsvps.filter(r => r.status === 'confirmed').length;
+            document.getElementById('total-gifts').textContent = gifts.length;
+            
+            const totalValue = gifts.filter(g => g.purchased).reduce((sum, g) => sum + g.price, 0);
+            document.getElementById('gift-value').textContent = `R$ ${totalValue.toFixed(2)}`;
+        }
+
+        // Carregar configurações salvas
+        function loadSettings() {
+            const settings = JSON.parse(localStorage.getItem('wedding-settings') || '{}');
+            
+            if (settings.date) document.getElementById('wedding-date').value = settings.date;
+            if (settings.ceremonyLocation) document.getElementById('ceremony-location').value = settings.ceremonyLocation;
+            if (settings.receptionLocation) document.getElementById('reception-location').value = settings.receptionLocation;
+            if (settings.dressCode) document.getElementById('dress-code').value = settings.dressCode;
+            if (settings.story) document.getElementById('wedding-story').value = settings.story;
+        }
+
+        // Inicializar página
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStats();
+            loadSettings();
+        });
+    </script>
+</body>
+</html>
+

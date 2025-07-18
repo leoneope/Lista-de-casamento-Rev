@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leo & Dan - Nosso Casamento</title>
+    <style>
+        :root {
+            --terracota-primary: #C65D32;
+            --terracota-secondary: #E07B39;
+            --terracota-light: #F4A261;
+            --terracota-dark: #A0522D;
+            --cream: #F5F5DC;
+            --warm-white: #FFF8F0;
+            --text-dark: #3E2723;
+            --text-light: #6D4C41;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--cream) 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 248, 240, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(198, 93, 50, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 20px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--terracota-primary);
+            text-decoration: none;
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--terracota-primary);
+            background: rgba(198, 93, 50, 0.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--cream) 50%, var(--terracota-light) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="%23C65D32" opacity="0.1"/></svg>') repeat;
+            background-size: 50px 50px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .couple-names {
+            font-size: 4rem;
+            font-weight: bold;
+            color: var(--terracota-primary);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .wedding-date {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--terracota-primary);
+            color: white;
+            border-color: var(--terracota-primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--terracota-dark);
+            border-color: var(--terracota-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(198, 93, 50, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--terracota-primary);
+            border-color: var(--terracota-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--terracota-primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(198, 93, 50, 0.3);
+        }
+
+        /* Cards */
+        .features {
+            padding: 4rem 0;
+            background: var(--warm-white);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(198, 93, 50, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(198, 93, 50, 0.1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(198, 93, 50, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--terracota-primary);
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .feature-description {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        /* Story Section */
+        .story {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--terracota-light) 100%);
+            text-align: center;
+        }
+
+        .story h2 {
+            font-size: 2.5rem;
+            color: var(--terracota-primary);
+            margin-bottom: 2rem;
+        }
+
+        .story-content {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            line-height: 1.8;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--terracota-dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .footer p {
+            margin-bottom: 1rem;
+        }
+
+        .footer-heart {
+            color: var(--terracota-light);
+            font-size: 1.5rem;
+            margin: 0 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .couple-names {
+                font-size: 2.5rem;
+            }
+            
+            .nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .header .container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero {
+                padding: 2rem 0;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content > * {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .feature-card {
+            animation: fadeInUp 0.8s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="#" class="logo">Leo & Dan</a>
+            <nav class="nav">
+                <a href="#admin" class="nav-link">Painel dos Noivos</a>
+                <a href="#rsvp" class="nav-link">Confirmar Presença</a>
+                <a href="#gifts" class="nav-link">Lista de Presentes</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="couple-names">Leo & Dan</h1>
+                <p class="wedding-date">15 de Dezembro de 2025</p>
+                <p class="hero-subtitle">
+                    Estamos muito felizes em compartilhar este momento especial com vocês. 
+                    Juntem-se a nós para celebrar nosso amor e o início de uma nova jornada.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#admin" class="btn btn-primary">Painel dos Noivos</a>
+                    <a href="#rsvp" class="btn btn-secondary">Confirmar Presença</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3 class="feature-title">Confirmação de Presença</h3>
+                    <p class="feature-description">
+                        Confirme sua presença de forma rápida e fácil. 
+                        Nos ajude a organizar melhor nossa celebração.
+                    </p>
+                    <a href="#rsvp" class="btn btn-primary">Confirmar Agora</a>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎁</div>
+                    <h3 class="feature-title">Lista de Presentes</h3>
+                    <p class="feature-description">
+                        Veja nossa lista de presentes e nos ajude a começar 
+                        nossa nova vida juntos da melhor forma.
+                    </p>
+                    <a href="#gifts" class="btn btn-primary">Ver Lista</a>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📍</div>
+                    <h3 class="feature-title">Informações do Evento</h3>
+                    <p class="feature-description">
+                        Encontre todas as informações sobre local, horário 
+                        e outras dicas importantes para o grande dia.
+                    </p>
+                    <a href="#info" class="btn btn-primary">Saiba Mais</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section class="story">
+        <div class="container">
+            <h2>Nossa História</h2>
+            <div class="story-content">
+                <p>
+                    Leo e Dan se conheceram em 2020 e desde então construíram uma linda história de amor. 
+                    Após anos de companheirismo, cumplicidade e muitos momentos especiais, 
+                    decidiram oficializar sua união e celebrar com família e amigos.
+                </p>
+                <br>
+                <p>
+                    Este site foi criado especialmente para compartilhar com vocês todos os detalhes 
+                    do nosso casamento e facilitar a organização deste dia tão especial.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Leo <span class="footer-heart">♥</span> Dan</p>
+            <p>15 de Dezembro de 2025</p>
+            <p>&copy; 2025 - Feito com amor para nosso dia especial</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling para links internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Redirecionamentos para as páginas funcionais
+        document.querySelector('a[href="#admin"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = '/admin.html';
+        });
+
+        document.querySelector('a[href="#rsvp"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = '/rsvp.html';
+        });
+
+        document.querySelector('a[href="#gifts"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = '/gifts.html';
+        });
+    </script>
+</body>
+</html>
+

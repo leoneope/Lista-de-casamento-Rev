@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Presentes - Leo & Dan</title>
+    <style>
+        :root {
+            --terracota-primary: #C65D32;
+            --terracota-secondary: #E07B39;
+            --terracota-light: #F4A261;
+            --terracota-dark: #A0522D;
+            --cream: #F5F5DC;
+            --warm-white: #FFF8F0;
+            --text-dark: #3E2723;
+            --text-light: #6D4C41;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--cream) 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 248, 240, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(198, 93, 50, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: var(--terracota-primary);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .nav-back {
+            display: inline-block;
+            margin-bottom: 2rem;
+            padding: 10px 20px;
+            background: var(--terracota-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-back:hover {
+            background: var(--terracota-dark);
+            transform: translateY(-2px);
+        }
+
+        .filter-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(198, 93, 50, 0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-section label {
+            color: var(--text-dark);
+            font-weight: bold;
+        }
+
+        .filter-section select {
+            padding: 8px 12px;
+            border: 2px solid var(--cream);
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .gifts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .gift-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(198, 93, 50, 0.1);
+            border: 1px solid rgba(198, 93, 50, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .gift-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(198, 93, 50, 0.2);
+        }
+
+        .gift-card.purchased {
+            opacity: 0.7;
+        }
+
+        .gift-card.purchased::before {
+            content: '✓ PRESENTEADO';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #28a745;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        .gift-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--terracota-light), var(--terracota-secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            position: relative;
+        }
+
+        .gift-content {
+            padding: 1.5rem;
+        }
+
+        .gift-category {
+            display: inline-block;
+            background: var(--cream);
+            color: var(--terracota-primary);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .gift-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .gift-description {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .gift-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--terracota-primary);
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--terracota-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-family: inherit;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: var(--terracota-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--terracota-primary);
+            border: 2px solid var(--terracota-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--terracota-primary);
+            color: white;
+        }
+
+        .stats-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(198, 93, 50, 0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .stat-item {
+            padding: 1rem;
+            background: var(--cream);
+            border-radius: 15px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--terracota-primary);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
+            top: 15px;
+        }
+
+        .close:hover {
+            color: var(--terracota-primary);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--cream);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--terracota-primary);
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            border: 1px solid #c3e6cb;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .gifts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+
+        .empty-state h3 {
+            color: var(--terracota-primary);
+            margin-bottom: 1rem;
+        }
+
+        .gift-icons {
+            '🍽️': 'cozinha',
+            '🛏️': 'quarto',
+            '🏠': 'casa',
+            '✈️': 'lua-de-mel',
+            '🎁': 'outros'
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="nav-back">← Voltar ao Site</a>
+        
+        <div class="header">
+            <h1>Lista de Presentes</h1>
+            <p>Leo & Dan</p>
+            <p>Escolha um presente especial para nos ajudar a começar nossa nova vida juntos. Cada contribuição é muito importante para nós!</p>
+        </div>
+
+        <!-- Estatísticas -->
+        <div class="stats-section">
+            <h2 style="color: var(--terracota-primary); margin-bottom: 1rem;">Progresso da Lista</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number" id="total-gifts">0</span>
+                    <span class="stat-label">Total de Presentes</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="purchased-gifts">0</span>
+                    <span class="stat-label">Já Presenteados</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="available-gifts">0</span>
+                    <span class="stat-label">Ainda Disponíveis</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="total-value">R$ 0</span>
+                    <span class="stat-label">Valor Arrecadado</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filter-section">
+            <label for="category-filter">Filtrar por categoria:</label>
+            <select id="category-filter">
+                <option value="all">Todas as categorias</option>
+                <option value="cozinha">Cozinha</option>
+                <option value="quarto">Quarto</option>
+                <option value="casa">Casa</option>
+                <option value="lua-de-mel">Lua de Mel</option>
+                <option value="outros">Outros</option>
+            </select>
+
+            <label for="status-filter">Filtrar por status:</label>
+            <select id="status-filter">
+                <option value="all">Todos</option>
+                <option value="available">Disponíveis</option>
+                <option value="purchased">Já Presenteados</option>
+            </select>
+        </div>
+
+        <!-- Lista de Presentes -->
+        <div id="gifts-container" class="gifts-grid">
+            <!-- Os presentes serão carregados aqui via JavaScript -->
+        </div>
+
+        <!-- Estado vazio -->
+        <div id="empty-state" class="empty-state" style="display: none;">
+            <h3>Nenhum presente encontrado</h3>
+            <p>Não há presentes que correspondam aos filtros selecionados.</p>
+        </div>
+    </div>
+
+    <!-- Modal de Compra -->
+    <div id="purchase-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 style="color: var(--terracota-primary); margin-bottom: 1.5rem; text-align: center;">Presentear Leo & Dan</h2>
+            
+            <div id="selected-gift-info" style="background: var(--cream); padding: 1rem; border-radius: 10px; margin-bottom: 1.5rem; text-align: center;">
+                <!-- Informações do presente selecionado -->
+            </div>
+
+            <form id="purchase-form">
+                <div class="form-group">
+                    <label for="buyer-name">Seu Nome Completo *</label>
+                    <input type="text" id="buyer-name" required placeholder="Como você gostaria de aparecer na lista">
+                </div>
+
+                <div class="form-group">
+                    <label for="buyer-email">Seu E-mail</label>
+                    <input type="email" id="buyer-email" placeholder="Para confirmação (opcional)">
+                </div>
+
+                <div class="form-group">
+                    <label for="buyer-message">Mensagem para os Noivos</label>
+                    <textarea id="buyer-message" rows="3" placeholder="Deixe uma mensagem carinhosa (opcional)"></textarea>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button type="submit" class="btn">Confirmar Presente</button>
+                    <button type="button" class="btn btn-secondary" onclick="closePurchaseModal()" style="margin-left: 1rem;">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Dados dos presentes (em uma aplicação real, viriam do servidor)
+        let gifts = JSON.parse(localStorage.getItem('wedding-gifts') || '[]');
+        
+        // Inicializar com dados de exemplo se estiver vazio
+        if (gifts.length === 0) {
+            gifts = [
+                {
+                    id: 1,
+                    name: 'Jogo de Panelas Antiaderente',
+                    description: 'Conjunto completo com 5 panelas antiaderentes de alta qualidade para a nova cozinha do casal.',
+                    price: 299.90,
+                    category: 'cozinha',
+                    purchased: false,
+                    purchasedBy: null,
+                    purchaseDate: null,
+                    icon: '🍳'
+                },
+                {
+                    id: 2,
+                    name: 'Jogo de Cama Casal King',
+                    description: 'Jogo de cama 100% algodão, super macio e confortável para noites de sono perfeitas.',
+                    price: 199.90,
+                    category: 'quarto',
+                    purchased: false,
+                    purchasedBy: null,
+                    purchaseDate: null,
+                    icon: '🛏️'
+                },
+                {
+                    id: 3,
+                    name: 'Lua de Mel - Passagens Aéreas',
+                    description: 'Ajuda com as passagens aéreas para a lua de mel dos sonhos do casal.',
+                    price: 2000.00,
+                    category: 'lua-de-mel',
+                    purchased: false,
+                    purchasedBy: null,
+                    purchaseDate: null,
+                    icon: '✈️'
+                },
+                {
+                    id: 4,
+                    name: 'Cafeteira Elétrica',
+                    description: 'Cafeteira automática para os momentos especiais de café da manhã do casal.',
+                    price: 159.90,
+                    category: 'cozinha',
+                    purchased: false,
+                    purchasedBy: null,
+                    purchaseDate: null,
+                    icon: '☕'
+                },
+                {
+                    id: 5,
+                    name: 'Aspirador de Pó Robot',
+                    description: 'Aspirador inteligente para manter a casa sempre limpa e organizada.',
+                    price: 899.90,
+                    category: 'casa',
+                    purchased: false,
+                    purchasedBy: null,
+                    purchaseDate: null,
+                    icon: '🤖'
+                },
+                {
+                    id: 6,
+                    name: 'Conjunto de Toalhas de Banho',
+                    description: 'Kit com 6 toalhas de banho 100% algodão, super absorventes e macias.',
+                    price: 129.90,
+                    category: 'casa',
+                    purchased: false,
+                    purchasedBy: null,
+                    purchaseDate: null,
+                    icon: '🛁'
+                },
+                {
+                    id: 7,
+                    name: 'Lua de Mel - Hotel Romântico',
+                    description: 'Contribuição para hospedagem em hotel romântico durante a lua de mel.',
+                    price: 1500.00,
+                    category: 'lua-de-mel',
+                    purchased: false,
+                    purchasedBy: null,
+                    purchaseDate: null,
+                    icon: '🏨'
+                },
+                {
+                    id: 8,
+                    name: 'Micro-ondas Digital',
+                    description: 'Micro-ondas moderno com funções digitais para facilitar o dia a dia na cozinha.',
+                    price: 399.90,
+                    category: 'cozinha',
+                    purchased: false,
+                    purchasedBy: null,
+                    purchaseDate: null,
+                    icon: '📱'
+                }
+            ];
+            localStorage.setItem('wedding-gifts', JSON.stringify(gifts));
+        }
+
+        let selectedGift = null;
+
+        function renderGifts(giftsToRender = gifts) {
+            const container = document.getElementById('gifts-container');
+            const emptyState = document.getElementById('empty-state');
+            
+            if (giftsToRender.length === 0) {
+                container.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            container.style.display = 'grid';
+            emptyState.style.display = 'none';
+            
+            container.innerHTML = giftsToRender.map(gift => `
+                <div class="gift-card ${gift.purchased ? 'purchased' : ''}">
+                    <div class="gift-image">
+                        ${gift.icon || '🎁'}
+                    </div>
+                    <div class="gift-content">
+                        <span class="gift-category">${gift.category}</span>
+                        <h3 class="gift-name">${gift.name}</h3>
+                        <p class="gift-description">${gift.description}</p>
+                        <div class="gift-price">R$ ${gift.price.toFixed(2)}</div>
+                        ${gift.purchased ? 
+                            `<div style="text-align: center; color: #28a745; font-weight: bold;">
+                                Presenteado por: ${gift.purchasedBy}
+                            </div>` :
+                            `<button class="btn" onclick="openPurchaseModal(${gift.id})">
+                                🎁 Presentear
+                            </button>`
+                        }
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateStats() {
+            const totalGifts = gifts.length;
+            const purchasedGifts = gifts.filter(g => g.purchased).length;
+            const availableGifts = totalGifts - purchasedGifts;
+            const totalValue = gifts.filter(g => g.purchased).reduce((sum, g) => sum + g.price, 0);
+
+            document.getElementById('total-gifts').textContent = totalGifts;
+            document.getElementById('purchased-gifts').textContent = purchasedGifts;
+            document.getElementById('available-gifts').textContent = availableGifts;
+            document.getElementById('total-value').textContent = `R$ ${totalValue.toFixed(2)}`;
+        }
+
+        function filterGifts() {
+            const categoryFilter = document.getElementById('category-filter').value;
+            const statusFilter = document.getElementById('status-filter').value;
+            
+            let filteredGifts = gifts;
+            
+            if (categoryFilter !== 'all') {
+                filteredGifts = filteredGifts.filter(gift => gift.category === categoryFilter);
+            }
+            
+            if (statusFilter === 'available') {
+                filteredGifts = filteredGifts.filter(gift => !gift.purchased);
+            } else if (statusFilter === 'purchased') {
+                filteredGifts = filteredGifts.filter(gift => gift.purchased);
+            }
+            
+            renderGifts(filteredGifts);
+        }
+
+        function openPurchaseModal(giftId) {
+            selectedGift = gifts.find(g => g.id === giftId);
+            if (!selectedGift) return;
+            
+            document.getElementById('selected-gift-info').innerHTML = `
+                <h3 style="color: var(--terracota-primary); margin-bottom: 0.5rem;">${selectedGift.name}</h3>
+                <p style="margin-bottom: 0.5rem;">${selectedGift.description}</p>
+                <div style="font-size: 1.2rem; font-weight: bold; color: var(--terracota-primary);">
+                    R$ ${selectedGift.price.toFixed(2)}
+                </div>
+            `;
+            
+            document.getElementById('purchase-modal').style.display = 'block';
+        }
+
+        function closePurchaseModal() {
+            document.getElementById('purchase-modal').style.display = 'none';
+            selectedGift = null;
+            document.getElementById('purchase-form').reset();
+        }
+
+        // Event Listeners
+        document.getElementById('category-filter').addEventListener('change', filterGifts);
+        document.getElementById('status-filter').addEventListener('change', filterGifts);
+
+        document.querySelector('.close').addEventListener('click', closePurchaseModal);
+
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('purchase-modal');
+            if (event.target === modal) {
+                closePurchaseModal();
+            }
+        });
+
+        document.getElementById('purchase-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!selectedGift) return;
+            
+            const buyerName = document.getElementById('buyer-name').value;
+            const buyerEmail = document.getElementById('buyer-email').value;
+            const buyerMessage = document.getElementById('buyer-message').value;
+            
+            if (!buyerName.trim()) {
+                alert('Por favor, informe seu nome.');
+                return;
+            }
+            
+            // Marcar presente como comprado
+            selectedGift.purchased = true;
+            selectedGift.purchasedBy = buyerName;
+            selectedGift.purchaseDate = new Date().toISOString();
+            selectedGift.buyerEmail = buyerEmail;
+            selectedGift.buyerMessage = buyerMessage;
+            
+            // Salvar no localStorage
+            localStorage.setItem('wedding-gifts', JSON.stringify(gifts));
+            
+            // Mostrar mensagem de sucesso
+            alert(`Obrigado, ${buyerName}! Seu presente foi confirmado. Leo e Dan ficarão muito felizes!`);
+            
+            // Fechar modal e atualizar interface
+            closePurchaseModal();
+            renderGifts();
+            updateStats();
+            filterGifts();
+        });
+
+        // Inicializar página
+        document.addEventListener('DOMContentLoaded', function() {
+            renderGifts();
+            updateStats();
+            
+            // Animação de entrada
+            const cards = document.querySelectorAll('.gift-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
+
